@@ -1,12 +1,33 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <NavigationComp></NavigationComp>
+    <transition
+        name="fade"
+        mode="out-in"
+        @beforeLeave="beforeLeave"
+        @enter="enter"
+        @afterEnter="afterEnter"
+      >
+        <router-view/>
+      </transition>
   </div>
 </template>
+
+<script>
+import NavigationComp from './components/NavigationComp.vue';
+
+export default {
+  name: 'App',
+  data() {
+    return {
+      prevHeight: 0,
+    };
+  },
+  components: {
+    NavigationComp,
+  },
+};
+</script>
 
 <style lang="scss">
 #app {
@@ -16,17 +37,15 @@
   text-align: center;
   color: #2c3e50;
 }
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
 }
 </style>
